@@ -1,6 +1,6 @@
 import utils from './utils';
 
-const TokenKey = 'ADMIN_TOKEN';
+const TokenKey = 'USER_TOKEN';
 
 export function getToken() {
   return utils.getLocal(TokenKey);

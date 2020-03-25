@@ -10,78 +10,82 @@ Vue.use(VueRouter);
 // import componentsRouter from "./components-router";
 
 const routerParam = {
+  myactive: "router-link-active",
   mode: "history",
   routes: [
+    {
+      path: "*",
+      redirect: { name: "Home" }
+    },
+    {
+      path: "/home",
+      name: "Home",
+      component: resolve => require(["../views/home/index"], resolve),
+      children: [
+        {
+          path: "",
+          name: "Shouye",
+          component: resolve =>
+            require(["../views/home/shouye/index"], resolve),
+          meta: { title: "首页", auth: false }
+        }
+      ]
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: resolve => require(["../views/login/index"], resolve),
+      meta: { title: "登录", auth: false }
+    },
     {
       path: "/403",
       name: "403",
       component: resolve => require(["components/error-pages/403"], resolve),
-      meta: { title: "权限错误" }
-    },
-    {
-      path: "/404",
-      name: "404",
-      component: resolve => require(["components/error-pages/404"], resolve),
-      meta: { title: "访问页面不存在" }
+      meta: { title: "权限错误", auth: false }
     }
   ]
 };
 
 let router = new VueRouter(routerParam);
 
-const whiteList = ["/login", "/403"];
-
 router.beforeEach((to, from, next) => {
   HeyUI.$LoadingBar.start();
-  if (getToken()) {
-    // 已是登陆
-    if (to.path == "/login") {
-      next("/");
-    }
+  if (to.meta && to.meta.title) {
+    document.title = to.meta.title + " - 失物招领中心";
+  } else {
+    document.title = "广州大学华软软件学院失物招领中心";
+  }
 
-    // 权限验证
-    R.Menu.menus().then(res => {
+  if (getToken()) {
+    // 获取用户信息;
+    R.User.getUserInfo().then(res => {
       if (res.ok) {
-        console.log(res.body);
-        let menus = res.body || [];
-        G.set("SYS_MENUS", menus);
-        G.trigger("SYS_MENU_UPDATE");
-        if (!isAuthPage(to.name)) {
-          removeToken();
-          next({ name: "403" });
-          return;
-        }
+        store.dispatch("updateAccount", res.body);
+        store.dispatch("updateRoles", res.body.roles);
       }
     });
+  }
 
-    // 获取用户信息;
-    R.User.getUserInfo()
-      .then(res => {
-        if (res.ok) {
-          store.dispatch("updateAccount", res.body);
-          store.dispatch("updateRoles", res.body.roles);
-        } else {
-          removeToken();
-          next("/login");
-        }
-      })
-      .catch(error => {
-        removeToken();
-        location.reload();
-      });
-
-    if (to.meta && to.meta.title) {
-      document.title = to.meta.title + " - 失物招领中心";
+  // 是否登录授权操作
+  if (to.meta && to.meta.auth) {
+    if (getToken()) {
+      if (to.path == "/login") {
+        next("/home");
+      } else {
+        next();
+      }
     } else {
-      document.title = "失物招领中心";
+      next("/login");
     }
-    next();
   } else {
-    if (whiteList.indexOf(to.path) !== -1) {
-      // 在免登录白名单，直接进入
-      next();
+    if (getToken()) {
+      if (to.path == "/login") {
+        next("/home");
+      } else {
+        next();
+      }
     } else {
-      next(`/login?redirect=${to.path}`); // 否则全部重定向到登录页
+      next();
     }
   }
 });

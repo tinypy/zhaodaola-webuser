@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import store from './store';
+import store from "./store";
 
 export default {
   data() {
@@ -26,5 +26,11 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+.shadow {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+}
+.router-link-active {
+  color: #3d7eff;
 }
 </style>

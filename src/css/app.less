@@ -6,10 +6,26 @@
 @import (less) "./common.less";
 
 
-body{
-  background: #f3f6f8;
+body {
+  background: #eff3f5;
   color: rgb(47, 47, 47);
   font-weight: 400;
+}
+
+@media screen and (min-width: 1761px) {
+  .page {
+    width: 1500px !important;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1761px) {
+  .page {
+    width: 1200px !important;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
 }
 
 p {
