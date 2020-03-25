@@ -3,16 +3,14 @@
     <div class="nav-header">
       <div class="page nav">
         <div class="nav-left">
-          <div class="logo">
-            广大华软学院失物招领中心
-          </div>
+          <div class="logo">失物招领中心</div>
           <ul>
             <router-link to="/home" tag="li">首 页</router-link>
-            <li>失物招领大厅</li>
+            <router-link to="/lostfound-search" tag="li">失物招领大厅</router-link>
             <li>校园资讯</li>
             <li>成功案例</li>
-            <li>联系我们</li>
             <li>留言墙</li>
+            <li>关于我们</li>
           </ul>
         </div>
         <div class="nav-right">
@@ -24,10 +22,10 @@
           </div>
           <div v-else>
             <DropdownMenu
-              className="app-header-dropdown"
+              class="app-header-dropdown"
               trigger="hover"
               offset="0,5"
-              :width="150"
+              :width="160"
               placement="bottom-end"
               :datas="infoMenu"
               @onclick="trigger"
@@ -60,8 +58,13 @@ export default {
     return {
       display: 1,
       infoMenu: [
-        { key: "info", title: "个人信息", icon: "h-icon-user" },
-        { key: "logout", title: "退出登录", icon: "h-icon-outbox" }
+        { key: "info", title: "个人中心", icon: "icon-air-play" },
+        { divider: true },
+        { key: "lostFound", title: "快速发布", icon: "icon-circle-plus" },
+        { key: "lostGoods", title: "我丢失物品", icon: "icon-stack" },
+        { key: "foundGoods", title: "我拾到物品", icon: "icon-box" },
+        { divider: true },
+        { key: "logout", title: "退出登录", icon: "icon-esc" }
       ]
     };
   },
@@ -103,13 +106,11 @@ export default {
       align-items: center;
       justify-content: flex-start;
       .logo {
-        width: 300px;
+        width: 170px;
         height: 60px;
         line-height: 60px;
-        text-align: center;
-        background-color: #3d7eff;
-        color: white;
-        font-size: 20px;
+        color: #3d7eff;
+        font-size: 24px;
         font-weight: bold;
         cursor: pointer;
       }
@@ -155,6 +156,8 @@ export default {
           padding-left: 45px;
           min-height: 30px;
           line-height: 30px;
+          color: #3d7eff;
+          font-weight: bold;
         }
       }
     }

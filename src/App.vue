@@ -32,5 +32,8 @@ export default {
 }
 .router-link-active {
   color: #3d7eff;
+  font-weight: bold;
+  border-bottom: 2px solid #3d7eff;
+  box-sizing: border-box;
 }
 </style>

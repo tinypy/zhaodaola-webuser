@@ -28,6 +28,13 @@ const routerParam = {
           component: resolve =>
             require(["../views/home/shouye/index"], resolve),
           meta: { title: "首页", auth: false }
+        },
+        {
+          path: "/lostfound-search",
+          name: "SearchIndex",
+          component: resolve =>
+            require(["../views/home/lostAndfound/search-index"], resolve),
+          meta: { title: "失物招领大厅", auth: false }
         }
       ]
     },
