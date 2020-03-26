@@ -6,9 +6,7 @@
           <div class="logo">失物招领中心</div>
           <ul>
             <router-link to="/home" tag="li">首 页</router-link>
-            <router-link to="/lostfound-search" tag="li"
-              >失物招领大厅</router-link
-            >
+            <router-link to="/home/lostfound-search" tag="li">失物招领大厅</router-link>
             <li>校园资讯</li>
             <li>成功案例</li>
             <li>留言墙</li>
@@ -40,7 +38,7 @@
                 "
                 :width="30"
               >
-                <span>{{ User.username }}</span>
+                <span>{{ User.nickName }}</span>
               </Avatar>
             </DropdownMenu>
           </div>

@@ -30,11 +30,25 @@ const routerParam = {
           meta: { title: "首页", auth: false }
         },
         {
-          path: "/lostfound-search",
+          path: "lostfound-search",
           name: "SearchIndex",
           component: resolve =>
             require(["../views/home/lostAndfound/search-index"], resolve),
           meta: { title: "失物招领大厅", auth: false }
+        },
+        {
+          path: "show-lost",
+          name: "ShowLost",
+          component: resolve =>
+            require(["../views/home/lostAndfound/show-lost"], resolve),
+          meta: { title: "寻物启事详情查看", auth: true }
+        },
+        {
+          path: "show-found",
+          name: "ShowFound",
+          component: resolve =>
+            require(["../views/home/lostAndfound/show-found"], resolve),
+          meta: { title: "招领启事详情查看", auth: true }
         }
       ]
     },
@@ -77,11 +91,19 @@ router.beforeEach((to, from, next) => {
   if (to.meta && to.meta.auth) {
     if (getToken()) {
       if (to.path == "/login") {
+        HeyUI.$Modal({
+          title: "温馨提示",
+          content: "请登录系统再操作"
+        });
         next("/home");
       } else {
         next();
       }
     } else {
+      HeyUI.$Modal({
+        title: "温馨提示",
+        content: "请登录系统再操作"
+      });
       next("/login");
     }
   } else {

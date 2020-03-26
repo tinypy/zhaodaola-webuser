@@ -18,11 +18,7 @@
             <div class="search-filter-wrap">
               <div class="search-picker-title">查询类型：</div>
               <div class="search-picker-item-group">
-                <SwitchList
-                  v-model="category"
-                  :datas="categorys"
-                  @change="onchangeCategory"
-                ></SwitchList>
+                <SwitchList v-model="category" :datas="categorys" @change="onchangeCategory"></SwitchList>
               </div>
             </div>
           </div>
@@ -30,11 +26,7 @@
             <div class="search-filter-wrap">
               <div class="search-picker-title">物品分类：</div>
               <div class="search-picker-item-group">
-                <SwitchList
-                  v-model="search.type"
-                  :datas="types"
-                  @change="onchangetype"
-                ></SwitchList>
+                <SwitchList v-model="search.type" :datas="types" @change="onchangetype"></SwitchList>
               </div>
             </div>
           </div>
@@ -64,9 +56,7 @@
     <div class="post">
       <div class="lost page">
         <div>
-          <el-divider content-position="left" class="biaoti"
-            >查询结果</el-divider
-          >
+          <el-divider content-position="left" class="biaoti">查询结果</el-divider>
           <div>
             <Row :space-x="15" :space-y="20">
               <Cell
@@ -78,13 +68,9 @@
                 v-for="(item, index) in searchResult"
                 :key="index"
               >
-                <div class="card">
+                <div class="card" @click="showLost(item.id)">
                   <div class="image">
-                    <el-image
-                      :src="item.image ? item.image : Default"
-                      fit="fill"
-                      :z-index="1"
-                    >
+                    <el-image :src="item.image ? item.image : Default" fit="fill" :z-index="1">
                       <div slot="error" class="image-slot">
                         <i class="el-icon-picture-outline"></i>
                       </div>
@@ -136,13 +122,7 @@
         @change="currentChange"
       ></Pagination>
     </div>
-    <div
-      v-else
-      class="page gray-color"
-      style="text-align:center;font-size: 22px;"
-    >
-      空空如也
-    </div>
+    <div v-else class="page gray-color" style="text-align:center;font-size: 22px;">空空如也</div>
     <!-- 分页结束 -->
   </div>
 </template>
@@ -184,6 +164,15 @@ export default {
     };
   },
   methods: {
+    showLost(data) {
+      console.log(data);
+      if (this.category == 1) {
+        this.$router.push({
+          name: "ShowLost",
+          query: { lostId: data }
+        });
+      }
+    },
     currentChange(value) {
       console.log(value);
       this.search.page = value.cur;
@@ -296,6 +285,9 @@ export default {
     if (keyword) {
       this.search.word = keyword;
     }
+
+    let category = this.$route.params.category;
+    if (category) this.category = category;
 
     this.getCategory();
 

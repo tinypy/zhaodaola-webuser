@@ -40,7 +40,7 @@ body {
 .shadow {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-.router-link-active {
+.router-link-exact-active {
   color: #3d7eff;
   font-weight: bold;
   border-bottom: 2px solid #3d7eff;

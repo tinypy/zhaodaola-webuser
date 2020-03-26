@@ -85,6 +85,9 @@ const Request = {
     }
   },
   Announce: {
+    showIndex() {
+      return Ajax.post("/announce/showIndex");
+    },
     getAnnounceList(param) {
       return Ajax.post("/announce/list", param);
     },
@@ -102,6 +105,9 @@ const Request = {
     }
   },
   News: {
+    showIndex() {
+      return Ajax.post("/news/showIndex");
+    },
     publish(param) {
       return Ajax.postJson("/news/publish", param);
     },

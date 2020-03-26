@@ -4,11 +4,7 @@
     <div class="page banner shadow">
       <el-carousel :interval="5000" height="480px" indicator-position="none">
         <el-carousel-item v-for="(item, index) in banners" :key="index">
-          <el-image
-            style="width: 100%; height: 100%"
-            :src="item.image"
-            fit="fill"
-          >
+          <el-image style="width: 100%; height: 100%" :src="item.image" fit="fill">
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
             </div>
@@ -37,8 +33,7 @@
         effect="dark"
         v-for="(item, index) in hotWord"
         :key="index"
-        >{{ item }}</el-tag
-      >
+      >{{ item }}</el-tag>
     </div>
     <!-- 搜索结束 -->
 
@@ -47,9 +42,7 @@
       <div class="lost page">
         <Skeleton active :loading="lostloading">
           <div>
-            <el-divider content-position="left" class="biaoti"
-              >最新寻物启事</el-divider
-            >
+            <el-divider content-position="left" class="biaoti">最新寻物启事</el-divider>
             <div>
               <Row :space-x="15" :space-y="20">
                 <Cell
@@ -61,13 +54,9 @@
                   v-for="(item, index) in lostLists"
                   :key="index"
                 >
-                  <div class="card" @click.stop="showLost(item.id)">
+                  <div class="card" @click="showLost(item.id)">
                     <div class="image">
-                      <el-image
-                        :src="item.image ? item.image : Default"
-                        fit="fill"
-                        :z-index="1"
-                      >
+                      <el-image :src="item.image ? item.image : Default" fit="fill" :z-index="1">
                         <div slot="error" class="image-slot">
                           <i class="el-icon-picture-outline"></i>
                         </div>
@@ -104,8 +93,9 @@
               </Row>
             </div>
             <div class="more">
-              <div class="show-more">
-                查看更多&nbsp;&nbsp;<i class="el-icon-right"></i>
+              <div class="show-more" @click="goto(1)">
+                查看更多&nbsp;&nbsp;
+                <i class="el-icon-right"></i>
               </div>
             </div>
           </div>
@@ -119,9 +109,7 @@
       <div class="lost page">
         <Skeleton active :loading="lostloading">
           <div>
-            <el-divider content-position="left" class="biaoti"
-              >最新招领启事</el-divider
-            >
+            <el-divider content-position="left" class="biaoti">最新招领启事</el-divider>
             <div>
               <Row :space-x="15" :space-y="20">
                 <Cell
@@ -133,13 +121,9 @@
                   v-for="(item, index) in foundLists"
                   :key="index"
                 >
-                  <div class="card" @click.stop="showLost(item.id)">
+                  <div class="card" @click="showFound(item.id)">
                     <div class="image">
-                      <el-image
-                        :src="item.image ? item.image : Default"
-                        fit="fill"
-                        :z-index="1"
-                      >
+                      <el-image :src="item.image ? item.image : Default" fit="fill" :z-index="1">
                         <div slot="error" class="image-slot">
                           <i class="el-icon-picture-outline"></i>
                         </div>
@@ -176,8 +160,9 @@
               </Row>
             </div>
             <div class="more">
-              <div class="show-more">
-                查看更多&nbsp;&nbsp;<i class="el-icon-right"></i>
+              <div class="show-more" @click="goto(2)">
+                查看更多&nbsp;&nbsp;
+                <i class="el-icon-right"></i>
               </div>
             </div>
           </div>
@@ -191,16 +176,14 @@
       <div class="news page">
         <Row :space-x="30" :space-y="30">
           <Cell :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-            <el-divider content-position="left" class="biaoti"
-              >最新校园资讯</el-divider
-            >
+            <el-divider content-position="left" class="biaoti">最新校园资讯</el-divider>
             <ul class="ul-list">
-              <li class="li-item" v-for="(item, index) in 10" :key="index">
+              <li class="li-item" v-for="(item, index) in newsList" :key="index">
                 <div class="index">{{ index + 1 }}</div>
                 <div class="news-title">
                   <TextEllipsis
                     class="title-1"
-                    text="华软教工在体育运动中喜迎新春！（图文）华软教工在体育运动中喜迎新春"
+                    :text="item.title"
                     :height="40"
                     useTooltip
                     tooltipTheme="drak"
@@ -210,23 +193,24 @@
                   </TextEllipsis>
                 </div>
                 <div class="time gray-color">
-                  <i class="el-icon-date"></i> 2019-12-31
+                  <i class="el-icon-date"></i>
+                  {{item.createTime}}
                 </div>
               </li>
-              <li class="li-item"><Button transparent>更多校园资讯</Button></li>
+              <li class="li-item">
+                <Button transparent>更多校园资讯</Button>
+              </li>
             </ul>
           </Cell>
           <Cell :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-            <el-divider content-position="left" class="biaoti"
-              >最新网站公告</el-divider
-            >
+            <el-divider content-position="left" class="biaoti">最新网站公告</el-divider>
             <ul class="ul-list">
-              <li class="li-item" v-for="(item, index) in 10" :key="index">
+              <li class="li-item" v-for="(item, index) in announceList" :key="index">
                 <div class="index">{{ index + 1 }}</div>
                 <div class="news-title">
                   <TextEllipsis
                     class="title-1"
-                    text="华软教工在体育运动中喜迎新春！（图文）华软教工在体育运动中喜迎新春"
+                    :text="item.title"
                     :height="40"
                     useTooltip
                     tooltipTheme="drak"
@@ -236,17 +220,19 @@
                   </TextEllipsis>
                 </div>
                 <div class="time gray-color">
-                  <i class="el-icon-date"></i> 2019-12-31
+                  <i class="el-icon-date"></i>
+                  {{item.createTime}}
                 </div>
               </li>
-              <li class="li-item"><Button transparent>更多网站公告</Button></li>
+              <li class="li-item">
+                <Button transparent>更多网站公告</Button>
+              </li>
             </ul>
           </Cell>
         </Row>
       </div>
     </div>
     <!-- 校园资讯结束 -->
-
   </div>
 </template>
 
@@ -266,11 +252,25 @@ export default {
       foundLists: [],
       lostloading: true,
       foundloading: true,
-      newsloading: false
+      newsloading: false,
+      newsList: [],
+      announceList: []
     };
   },
   methods: {
-    showLost(data) {},
+    showLost(data) {
+      console.log(data);
+      this.$router.push({
+        name: "ShowLost",
+        query: { lostId: data }
+      });
+    },
+    showFound(data) {
+      this.$router.push({
+        name: "ShowFound",
+        query: { foundId: data }
+      });
+    },
     getBanners() {
       R.Banner.showToIndex().then(res => {
         console.log(res);
@@ -337,8 +337,33 @@ export default {
         });
       }, 1000);
     },
+    getNewsList() {
+      R.News.showIndex().then(res => {
+        console.log(res);
+        if (res.ok) {
+          this.newsList = res.body;
+        }
+      });
+    },
+    getAnnounceList() {
+      R.Announce.showIndex().then(res => {
+        console.log(res);
+        if (res.ok) {
+          this.announceList = res.body;
+        }
+      });
+    },
     search(data) {
-      this.$router.push({ name: "SearchIndex", params: { keyword: data } });
+      this.$router.push({
+        name: "SearchIndex",
+        params: { keyword: data }
+      });
+    },
+    goto(index) {
+      this.$router.push({
+        name: "SearchIndex",
+        params: { category: index }
+      });
     }
   },
   mounted() {
@@ -348,6 +373,10 @@ export default {
     this.getLostIndex();
     // 获取最新招领启事
     this.getFoundIndex();
+    // 获取校园资讯列表
+    this.getNewsList();
+    // 获取网站公告
+    this.getAnnounceList();
   }
 };
 </script>
