@@ -156,6 +156,9 @@ const Request = {
     }
   },
   Found: {
+    getFoundIndex() {
+      return Ajax.postJson("/founds/index");
+    },
     publishFound(param) {
       return Ajax.postJson("/founds/publish", param);
     },

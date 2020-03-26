@@ -19,6 +19,15 @@ export default {
 </script>
 
 <style lang="less">
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
