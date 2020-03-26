@@ -7,6 +7,12 @@ const Request = {
     }
   },
   Comment: {
+    showComment(param) {
+      return Ajax.post("/comment/showComment", param);
+    },
+    submitComment(param) {
+      return Ajax.postJson("/comment/submitComment", param);
+    },
     getCommentList(param) {
       return Ajax.post("/comment/list", param);
     },
@@ -142,6 +148,9 @@ const Request = {
     getLostList(param) {
       return Ajax.post("/losts/list", param);
     },
+    getLostInfo(param) {
+      return Ajax.post("/losts/showInfo/" + param);
+    },
     download(param) {
       return Ajax.post("/losts/download", param, {}, "blob");
     },
@@ -164,6 +173,9 @@ const Request = {
     },
     getFoundList(param) {
       return Ajax.post("/founds/list", param);
+    },
+    getFoundInfo(param) {
+      return Ajax.post("/founds/showInfo/" + param);
     },
     download(param) {
       return Ajax.post("/founds/download", param, {}, "blob");

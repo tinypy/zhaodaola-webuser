@@ -23,6 +23,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  overflow: auto !important;
 }
 #app {
   height: 100%;
@@ -37,7 +38,7 @@ body {
   opacity: 0;
 }
 .shadow {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .router-link-active {
   color: #3d7eff;
