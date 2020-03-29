@@ -1,16 +1,16 @@
-import axios from 'axios';
-import qs from 'qs';
-import Utils from './utils';
+import axios from "axios";
+import qs from "qs";
+import Utils from "./utils";
 
-import { getToken } from 'js/common/auth.js';
+import { getToken, removeToken } from "js/common/auth.js";
 
 const DefaultParam = { repeatable: false };
 
 let ajax = {
-  PREFIX: '/api',
+  PREFIX: "/api",
   requestingApi: new Set(),
   extractUrl: function(url) {
-    return url ? url.split('?')[0] : '';
+    return url ? url.split("?")[0] : "";
   },
   isRequesting: function(url) {
     let api = this.extractUrl(url);
@@ -27,17 +27,17 @@ let ajax = {
   get: function(url, param, extendParam) {
     let params = {
       url,
-      method: 'GET'
+      method: "GET"
     };
     if (param) {
       params.params = param;
     }
     return this.ajax(params, extendParam);
   },
-  post: function(url, param, extendParam, dataType = 'json') {
+  post: function(url, param, extendParam, dataType = "json") {
     var params = {
       url,
-      method: 'POST'
+      method: "POST"
     };
     if (param) params.data = qs.stringify(param);
     return this.ajax(params, extendParam, dataType);
@@ -46,7 +46,7 @@ let ajax = {
     return this.ajax(
       {
         url,
-        method: 'POST',
+        method: "POST",
         data: paramJson
       },
       extendParam
@@ -56,7 +56,7 @@ let ajax = {
     return this.ajax(
       {
         url,
-        method: 'PATCH',
+        method: "PATCH",
         data: paramJson
       },
       extendParam
@@ -66,24 +66,24 @@ let ajax = {
     return this.ajax(
       {
         url: url,
-        method: 'DELETE'
+        method: "DELETE"
       },
       extendParam
     );
   },
-  ajax: function(param, extendParam, dataType = 'json') {
+  ajax: function(param, extendParam, dataType = "json") {
     // 参数合并对象
     let params = Utils.extend({}, DefaultParam, param, extendParam || {});
     // http请求
-    params.crossDomain = params.url.indexOf('http') === 0;
+    params.crossDomain = params.url.indexOf("http") === 0;
     let url = params.url;
     if (!params.crossDomain) {
       url = params.url = this.PREFIX + params.url;
     }
-    if (params.method != 'GET') {
+    if (params.method != "GET") {
       if (this.isRequesting(url)) {
         return new Promise((resolve, reject) => {
-          resolve({ ok: false, msg: '重复请求' });
+          resolve({ ok: false, msg: "重复请求" });
         });
       }
       if (params.repeatable === false) {
@@ -93,7 +93,7 @@ let ajax = {
     // 请求头
     let header = {
       Authorization: getToken(),
-      ContentType: 'application/json'
+      ContentType: "application/json"
     };
     let defaultParam = {
       timeout: 10000,
@@ -125,27 +125,27 @@ let ajax = {
           let data = response.data;
           if (code && code != 200) {
             if (code == 401) {
-              window.top.location = '/login';
+              window.top.location = "/login";
               return;
             }
             if (code == 500) {
               HeyUI.$Notice({
-                type: 'error',
-                title: 'Tips',
+                type: "error",
+                title: "Tips",
                 content: `接口请求失败`
               });
             } else if (code == 404) {
               HeyUI.$Notice({
-                type: 'error',
-                title: 'Tips',
+                type: "error",
+                title: "Tips",
                 content: `请求地址不存在`
               });
             } else {
               const errorMsg = data.message;
               if (errorMsg !== undefined) {
                 HeyUI.$Notice({
-                  type: 'error',
-                  title: 'Tips',
+                  type: "error",
+                  title: "Tips",
                   content: errorMsg
                 });
               }

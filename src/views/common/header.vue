@@ -7,10 +7,10 @@
           <ul>
             <router-link to="/home" tag="li">首 页</router-link>
             <router-link to="/home/lostfound-search" tag="li">失物招领大厅</router-link>
-            <li>校园资讯</li>
-            <li>成功案例</li>
-            <li>留言墙</li>
-            <li>关于我们</li>
+            <router-link to="/home/news-list" tag="li">校园资讯</router-link>
+            <router-link to="/home/success-case" tag="li">成功案例</router-link>
+            <router-link to="/home/thanks" tag="li">留言墙</router-link>
+            <router-link to="/home/about" tag="li">关于我们</router-link>
           </ul>
         </div>
         <div class="nav-right">
@@ -56,6 +56,7 @@ export default {
   name: "Header",
   data() {
     return {
+      Avatar: Avatar,
       display: 1,
       infoMenu: [
         { key: "info", title: "个人中心", icon: "icon-air-play" },
@@ -73,11 +74,21 @@ export default {
   },
   methods: {
     trigger(data) {
+      if (data == "info") {
+        this.$router.replace({ name: "User" });
+      }
+      if (data == "lostFound") {
+        this.$router.replace({ name: "LostPublish" });
+      }
       if (data == "logout") {
         removeToken();
         this.$router.replace({ name: "Login" });
-      } else {
-        this.$router.push({ name: "UserCenter" });
+      }
+      if (data == "lostGoods") {
+        this.$router.replace({ name: "MyLost" });
+      }
+      if (data == "foundGoods") {
+        this.$router.replace({ name: "MyFound" });
       }
     }
   },

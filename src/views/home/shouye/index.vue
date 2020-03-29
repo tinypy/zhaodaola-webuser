@@ -2,16 +2,18 @@
   <div class="shouye">
     <!-- 轮播图开始 -->
     <div class="page banner shadow">
-      <el-carousel :interval="5000" height="480px" indicator-position="none">
-        <el-carousel-item v-for="(item, index) in banners" :key="index">
-          <el-image style="width: 100%; height: 100%" :src="item.image" fit="fill">
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
-            </div>
-          </el-image>
-          <div class="title">{{ item.title }}</div>
-        </el-carousel-item>
-      </el-carousel>
+      <div>
+        <el-carousel :interval="5000" height="480px" indicator-position="none">
+          <el-carousel-item v-for="(item, index) in banners" :key="index">
+            <el-image style="width: 100%; height: 100%" :src="item.image" fit="fill">
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+            <div class="title" @click="gotoNewsInfo(item.newsId)">{{ item.title }}</div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     </div>
     <!-- 轮播图结束 -->
 
@@ -178,7 +180,12 @@
           <Cell :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
             <el-divider content-position="left" class="biaoti">最新校园资讯</el-divider>
             <ul class="ul-list">
-              <li class="li-item" v-for="(item, index) in newsList" :key="index">
+              <li
+                class="li-item"
+                v-for="(item, index) in newsList"
+                :key="index"
+                @click="gotoNewsInfo(item.id)"
+              >
                 <div class="index">{{ index + 1 }}</div>
                 <div class="news-title">
                   <TextEllipsis
@@ -198,7 +205,7 @@
                 </div>
               </li>
               <li class="li-item">
-                <Button transparent>更多校园资讯</Button>
+                <Button transparent @click="gotoNews">更多校园资讯</Button>
               </li>
             </ul>
           </Cell>
@@ -209,6 +216,7 @@
                 <div class="index">{{ index + 1 }}</div>
                 <div class="news-title">
                   <TextEllipsis
+                    @click="gotoInfo(item.id)"
                     class="title-1"
                     :text="item.title"
                     :height="40"
@@ -225,7 +233,7 @@
                 </div>
               </li>
               <li class="li-item">
-                <Button transparent>更多网站公告</Button>
+                <Button transparent @click="gotoAnnounce">更多网站公告</Button>
               </li>
             </ul>
           </Cell>
@@ -253,11 +261,27 @@ export default {
       lostloading: true,
       foundloading: true,
       newsloading: false,
+      bannerloading: true,
       newsList: [],
       announceList: []
     };
   },
   methods: {
+    gotoNewsInfo(data) {
+      this.$router.push({ name: "NewsInfo", query: { newsId: data } });
+    },
+    gotoNews() {
+      this.$router.push({ name: "News" });
+    },
+    gotoInfo(data) {
+      this.$router.push({
+        name: "AnnounceInfo",
+        query: { announceId: data }
+      });
+    },
+    gotoAnnounce() {
+      this.$router.push({ name: "SystemAnnounce" });
+    },
     showLost(data) {
       console.log(data);
       this.$router.push({
@@ -272,13 +296,15 @@ export default {
       });
     },
     getBanners() {
-      R.Banner.showToIndex().then(res => {
+      // 1 表示首页轮播图
+      R.Banner.showToIndex(1).then(res => {
         console.log(res);
         if (res.ok) {
           res.body.forEach(banner => {
             let temp = {};
             temp.title = banner.title;
             temp.link = banner.link;
+            temp.newsId = banner.newsId;
             temp.image = this.baseApi + banner.image;
             this.banners.push(temp);
           });
@@ -425,8 +451,21 @@ export default {
   }
   .banner {
     margin: 30px auto !important;
-    background-color: white;
     overflow: hidden;
+    .el-carousel__item {
+      .title {
+        cursor: pointer;
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        bottom: 10px;
+        left: 10px;
+        line-height: 50px;
+        font-size: 24px;
+        color: white;
+        background: rgba(0, 0, 0, 0.8);
+      }
+    }
   }
   .search {
     margin-bottom: 50px;
@@ -529,20 +568,6 @@ export default {
     &:hover {
       background-color: lighten(@primary-color, 10%);
     }
-  }
-}
-.el-carousel__item {
-  .title {
-    cursor: pointer;
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    bottom: 10px;
-    left: 10px;
-    line-height: 50px;
-    padding-left: 20px;
-    font-size: 24px;
-    color: white;
   }
 }
 </style>

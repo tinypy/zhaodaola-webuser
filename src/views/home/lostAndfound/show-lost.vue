@@ -27,7 +27,15 @@
     margin-bottom: 15px;
   }
   .rep:hover {
-      color: salmon;
+    color: salmon;
+  }
+  .push {
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.6s ease;
+  }
+  .push:hover {
+    color: #3d7eff;
   }
 }
 </style>
@@ -37,7 +45,7 @@
     <div class="page">
       <Row :space="20">
         <Cell :xs="16" :sm="16" :md="16" :lg="16" :xl="16">
-          <div class="h-panel h-panel-no-border shadow">
+          <div class="h-panel h-panel-no-border shadow animated fadeInLeft">
             <div class="h-panel-bar">
               <div class="h-panel-title">
                 <el-page-header title="返回" @back="goBack" content="寻物启事详情"></el-page-header>
@@ -59,7 +67,7 @@
                 <FormItem label="启事状态：">
                   <span class="h-tag h-tag-bg-primary">{{lostItem.status}}</span>
                 </FormItem>
-                <FormItem label="浏览次数">{{lostItem.browse}}</FormItem>
+                <FormItem label="浏览次数：">{{lostItem.browse}}</FormItem>
                 <FormItem label="失物图片：" single>
                   <ImagePreview
                     :width="120"
@@ -73,7 +81,7 @@
             </div>
           </div>
           <div style="margin:8px 0px;"></div>
-          <div class="h-panel h-panel-no-border shadow">
+          <div class="h-panel h-panel-no-border shadow animated fadeInUp">
             <div class="h-panel-bar">
               <span class="h-tag-circle h-tag-bg-yellow">
                 <i class="h-icon-success"></i>
@@ -108,7 +116,7 @@
                   <div class="replay" v-for="(item,index) in commentList" :key="index">
                     <Avatar :src="item.avatar?(avatarBaseApi+item.avatar):Avatar" :imageTop="1">
                       <div style="font-size:14px;">
-                        <a href="#" v-color="'#00a1d6'">{{item.fromUsername}}</a>
+                        <a href="#" v-color="'#00a1d6'">{{item.fromNickName}}</a>
                       </div>
                       <div style="margin:8px 0px;line-hight:26px;">{{item.content}}</div>
                       <div style="color:#99a2aa;line-hight:24px;">
@@ -118,7 +126,7 @@
                         </span>
                         <span
                           style="margin-right:30px;cursor: pointer;font-size:12px;"
-                          @click="replay(item.userId,item.id,item.fromUsername,1)"
+                          @click="replay(item.userId,item.id,item.fromNickName,2)"
                         >
                           <i class="h-icon-message"></i>&nbsp;&nbsp;
                           <span class="rep">回复</span>
@@ -132,10 +140,10 @@
                             :imageTop="1"
                           >
                             <div style="font-size:14px;">
-                              <a href="#" v-color="'#fb7299'">{{childItem.fromUsername}}</a>
-                              <span v-if="childItem.replayId">
+                              <a href="#" v-color="'#fb7299'">{{childItem.fromNickName}}</a>
+                              <span v-if="childItem.replayId && childItem.level==3">
                                 <span>&nbsp;&nbsp;回复&nbsp;&nbsp;</span>
-                                <a href="#" v-color="'#00a1d6'">{{childItem.toUsername}}</a>
+                                <a href="#" v-color="'#00a1d6'">{{childItem.toNickName}}</a>
                               </span>
                             </div>
                             <div style="margin:8px 0px;line-hight:26px;">{{childItem.content}}</div>
@@ -146,7 +154,7 @@
                               </span>
                               <span
                                 style="margin-right:30px;cursor: pointer;font-size:12px;"
-                                @click="replay(childItem.userId,item.id,childItem.fromUsername,2)"
+                                @click="replay(childItem.userId,item.id,childItem.fromNickName,3)"
                               >
                                 <i class="h-icon-message"></i>&nbsp;&nbsp;
                                 <span class="rep">回复</span>
@@ -175,17 +183,34 @@
           </div>
         </Cell>
         <Cell :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-          <div class="h-panel h-panel-no-border shadow">
+          <div class="h-panel h-panel-no-border shadow animated fadeInRight">
             <div class="h-panel-bar">
-              <span class="h-panel-title">标题</span>
-              <span class="h-panel-right">
-                <a>More</a>
-              </span>
+              <span class="h-panel-title">相关推荐</span>
             </div>
             <div class="h-panel-body">
-              <p>content</p>
-              <p>content</p>
-              <p>content</p>
+              <!-- 推荐开始 -->
+              <div
+                class="push bottom-line"
+                v-for="(item, index) in recommand"
+                :key="index"
+                @click="showLost(item.id)"
+              >
+                <Avatar :src="item.image ? item.image : Default" shape="square">
+                  <div style="font-size: 18px;">
+                    <TextEllipsis
+                      :text="item.title"
+                      :height="30"
+                      useTooltip
+                      tooltipTheme="drak"
+                      placement="top"
+                    >
+                      <template slot="more">...</template>
+                    </TextEllipsis>
+                  </div>
+                  <p class="dark2-color">{{item.createTime}}</p>
+                </Avatar>
+              </div>
+              <!-- 推荐结束 -->
             </div>
           </div>
         </Cell>
@@ -201,6 +226,7 @@ export default {
   name: "ShowLost",
   data() {
     return {
+      src: "https://i1.go2yd.com/image.php?url=0Kvq81cKR1",
       loading: true,
       count: 0,
       placeholder: "请输入您的评论.....",
@@ -214,17 +240,25 @@ export default {
       avatar: "",
       fileList: [],
       lostItem: {},
-      subComment: { type: 1, pid: 0 },
+      subComment: { type: 1, pid: 0, level: 1 },
       showDto: {
         postCode: "",
         page: 1,
         size: 4,
         total: 0
       },
-      commentList: []
+      commentList: [],
+      recommand: []
     };
   },
   methods: {
+    showLost(data) {
+      this.$router.push({
+        name: "ShowLost",
+        query: { lostId: data }
+      });
+      location.reload();
+    },
     currentChange(value) {
       console.log(value);
       this.showDto.page = value.cur;
@@ -232,8 +266,28 @@ export default {
       // 刷新评论列表
       this.showComment();
     },
+    pushLost(data) {
+      R.Lost.pushLost(data).then(res => {
+        console.log(res);
+        if (res.ok) {
+          res.body.forEach(lost => {
+            let temp = {};
+            temp.id = lost.id;
+            temp.uuid = lost.uuid;
+            temp.title = lost.title;
+            if (lost.imagesName.length > 0) {
+              temp.image = this.fileBaseApi + lost.imagesName[0];
+            } else {
+              temp.image = null;
+            }
+            temp.createTime = lost.createTime;
+            this.recommand.push(temp);
+          });
+        }
+      });
+    },
     cancel() {
-      this.subComment = { type: 1, pid: 0 };
+      this.subComment = { type: 1, pid: 0, level: 1 };
       this.subComment.postCode = this.lostItem.uuid;
 
       this.comment = "";
@@ -242,11 +296,10 @@ export default {
     replay(replayId, pid, name, level) {
       this.placeholder = "回复@//" + name + ".......";
       this.$refs.inputref.focus();
-      // 参数1：被回复者ID，参数2：父ID
-      if (level == 2) {
-        this.subComment.replayId = replayId;
-      }
+      // 参数1：被回复者ID，参数2：父ID，level：表示2不显示楼主
+      this.subComment.replayId = replayId;
       this.subComment.pid = pid;
+      this.subComment.level = level;
       console.log(this.subComment);
     },
     showComment() {
@@ -286,7 +339,7 @@ export default {
             content: "感谢您宝贵的评论"
           });
 
-          this.subComment = { type: 1, pid: 0 };
+          this.subComment = { type: 1, pid: 0, level: 1 };
           this.subComment.postCode = this.lostItem.uuid;
 
           this.comment = "";
@@ -326,6 +379,9 @@ export default {
 
           // 评论列表
           this.showComment();
+
+          // 相关推荐
+          this.pushLost({ name: this.lostItem.type, slfe: this.lostItem.id });
         }
       });
     }

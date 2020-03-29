@@ -54,7 +54,7 @@
 
     <!-- 查询结果开始 -->
     <div class="post">
-      <div class="lost page">
+      <div class="lost page animated fadeIn">
         <div>
           <el-divider content-position="left" class="biaoti">查询结果</el-divider>
           <div>
@@ -170,6 +170,11 @@ export default {
         this.$router.push({
           name: "ShowLost",
           query: { lostId: data }
+        });
+      } else {
+        this.$router.push({
+          name: "ShowFound",
+          query: { foundId: data }
         });
       }
     },

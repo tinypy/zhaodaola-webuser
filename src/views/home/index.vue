@@ -24,9 +24,7 @@
               <a href="http://home.sise.cn/" target="blank">华软导航</a>
             </li>
             <li>
-              <a href="https://www.sise.com.cn/" target="blank"
-                >广州大学华软软件学院</a
-              >
+              <a href="https://www.sise.com.cn/" target="blank">广州大学华软软件学院</a>
             </li>
             <li>
               <a href="http://www.cswzl.com/" target="blank">中国失物招领网</a>
@@ -38,9 +36,7 @@
               <a href="http://www.swzl.com/" target="blank">失物招领网</a>
             </li>
             <li>
-              <a href="https://www.shiwurenling.com/" target="blank"
-                >失物认领</a
-              >
+              <a href="https://www.shiwurenling.com/" target="blank">失物认领</a>
             </li>
           </ul>
         </div>
@@ -51,16 +47,6 @@
       </div>
     </div>
     <!-- 底部结束 -->
-
-    <!-- 返回顶部 -->
-    <BackTop
-      :target="getTarget"
-      :bottom="100"
-      :right="50"
-      class-name="h-backtop-custom"
-      >返回顶部</BackTop
-    >
-    <!-- 返回顶部 -->
   </div>
 </template>
 
@@ -71,11 +57,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    getTarget() {
-      return document.querySelector(".right-frame");
-    }
-  },
+  methods: {},
   components: {
     Header
   }

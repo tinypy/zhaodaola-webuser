@@ -6,6 +6,28 @@ const Request = {
       return Ajax.post("/auth/code");
     }
   },
+  Message: {
+    delete(param) {
+      return Ajax.post("/message/delete/" + param);
+    },
+    getNoread(param) {
+      return Ajax.post("/message/getNoread/" + param);
+    },
+    setMsgread(param) {
+      return Ajax.post("/message/setMsgread/" + param);
+    },
+    getMessage(param) {
+      return Ajax.post("/message/getMessage", param);
+    }
+  },
+  Thanks: {
+    createThanks(param) {
+      return Ajax.postJson("/thanks/create", param);
+    },
+    getThanks(param) {
+      return Ajax.postJson("/thanks/getlist", param);
+    }
+  },
   Comment: {
     showComment(param) {
       return Ajax.post("/comment/showComment", param);
@@ -65,8 +87,8 @@ const Request = {
     }
   },
   Banner: {
-    showToIndex() {
-      return Ajax.post("/banner/show");
+    showToIndex(param) {
+      return Ajax.post("/banner/show/" + param);
     },
     getBannerList(param) {
       return Ajax.post("/banner/list", param);
@@ -85,6 +107,12 @@ const Request = {
     }
   },
   Announce: {
+    showOne(param) {
+      return Ajax.post("/announce/showOne/" + param);
+    },
+    showAnnounce(param) {
+      return Ajax.post("/announce/showList", param);
+    },
     showIndex() {
       return Ajax.post("/announce/showIndex");
     },
@@ -105,6 +133,9 @@ const Request = {
     }
   },
   News: {
+    showNews(param) {
+      return Ajax.post("/news/showNews", param);
+    },
     showIndex() {
       return Ajax.post("/news/showIndex");
     },
@@ -145,6 +176,9 @@ const Request = {
     }
   },
   Lost: {
+    pushLost(param) {
+      return Ajax.post("/losts/pushLost", param);
+    },
     getLostIndex() {
       return Ajax.postJson("/losts/index");
     },
@@ -166,11 +200,20 @@ const Request = {
     getOne(param) {
       return Ajax.post("/losts/getOne/" + param);
     },
+    deleteOne(param) {
+      return Ajax.post("/losts/delete/" + param);
+    },
     updateLost(param) {
       return Ajax.postJson("/losts/update", param);
     }
   },
   Found: {
+    deleteOne(param) {
+      return Ajax.post("/founds/delete/" + param);
+    },
+    pushFound(param) {
+      return Ajax.post("/founds/pushFound", param);
+    },
     getFoundIndex() {
       return Ajax.postJson("/founds/index");
     },

@@ -1,11 +1,11 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import { getToken, removeToken } from 'js/common/auth.js';
+import { getToken, removeToken } from "js/common/auth.js";
 
 Vue.use(Vuex);
 
-const baseApi = 'http://localhost:8001';
+const baseApi = "http://localhost:8001";
 
 export default new Vuex.Store({
   state: {
@@ -13,7 +13,8 @@ export default new Vuex.Store({
     roles: [],
     token: getToken(),
     siderCollapsed: false,
-    baseApi: baseApi
+    baseApi: baseApi,
+    commentCount: 0
   },
   mutations: {
     updateAccount(state, data) {
@@ -24,20 +25,20 @@ export default new Vuex.Store({
     },
     updateSiderCollapse(state, isShow) {
       setTimeout(() => {
-        G.trigger('page_resize');
+        G.trigger("page_resize");
       }, 600);
       state.siderCollapsed = isShow;
     }
   },
   actions: {
     updateAccount(context, data) {
-      context.commit('updateAccount', data);
+      context.commit("updateAccount", data);
     },
     updateRoles(context, data) {
-      context.commit('updateRoles', data);
+      context.commit("updateRoles", data);
     },
     updateSiderCollapse(context, data) {
-      context.commit('updateSiderCollapse', data);
+      context.commit("updateSiderCollapse", data);
     },
     userLogout({ commit }) {
       new Promise((resolve, reject) => {
