@@ -31,14 +31,13 @@
             box-sizing: border-box;
           }
           .update-avatar {
-            position: absolute;
-            top: -1px;
-            left: 118px;
             text-align: center;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             padding: 10px;
+            width: 100%;
+            display: block;
           }
         }
         .user-nav {
@@ -82,6 +81,8 @@
       background-color: white;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
+      width: 280px;
+      margin: 0 auto;
       .nick {
         padding: 30px 0px;
         font-size: 22px;
@@ -120,7 +121,7 @@
             <!-- 左边 -->
             <Cell :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
               <div class="avatar">
-                <span class="update-avatar red-color">
+                <div class="update-avatar red-color">
                   <el-upload
                     :show-file-list="false"
                     :on-success="handleSuccess"
@@ -131,10 +132,10 @@
                   >
                     <span title="更换头像">上传</span>
                   </el-upload>
-                </span>
+                </div>
                 <div class="img">
                   <Avatar
-                    :src="User.avatar?avatarBaseApi+User.avatar:Avatar"
+                    :src="User.avatar ? avatarBaseApi + User.avatar : Avatar"
                     :width="80"
                     fit="fill"
                     noInfo
@@ -146,11 +147,15 @@
             <Cell :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
               <div class="user-nav">
                 <div class="item-nav">
-                  <router-link tag="span" :to="{name:'MyLost'}">我丢失的物品</router-link>
+                  <router-link tag="span" :to="{ name: 'MyLost' }"
+                    >我丢失的物品</router-link
+                  >
                   <em></em>
-                  <router-link tag="span" :to="{name:'MyFound'}">我拾到的物品</router-link>
+                  <router-link tag="span" :to="{ name: 'MyFound' }"
+                    >我拾到的物品</router-link
+                  >
                   <em></em>
-                  <router-link tag="span" :to="{name:'MyComment'}">
+                  <router-link tag="span" :to="{ name: 'MyComment' }">
                     <Badge :count="commentCount">
                       <div class="text-center">回复我的</div>
                     </Badge>
@@ -180,7 +185,7 @@
           style=" padding-left: 12px;padding-right: 12px;"
         >
           <div class="box">
-            <div class="nick">{{userInfo.nickName}}</div>
+            <div class="nick">{{ userInfo.nickName }}</div>
             <div>
               <ul class="user-info">
                 <li>
@@ -250,15 +255,25 @@
         </FormItem>
 
         <FormItem label="新密码" prop="newpassword1">
-          <input type="password" v-model="data.newpassword1" :autocomplete="false" />
+          <input
+            type="password"
+            v-model="data.newpassword1"
+            :autocomplete="false"
+          />
         </FormItem>
 
         <FormItem label="再次输入新密码" prop="newpassword2">
-          <input type="password" v-model="data.newpassword2" :autocomplete="false" />
+          <input
+            type="password"
+            v-model="data.newpassword2"
+            :autocomplete="false"
+          />
         </FormItem>
 
         <FormItem>
-          <Button color="primary" :loading="isLoading" @click="submit">提 交</Button>&nbsp;&nbsp;&nbsp;
+          <Button color="primary" :loading="isLoading" @click="submit"
+            >提 交</Button
+          >&nbsp;&nbsp;&nbsp;
           <Button @click="updateVisible = false">取 消</Button>
         </FormItem>
       </Form>
@@ -281,16 +296,26 @@
         :model="editor"
       >
         <FormItem label="昵称" prop="nickName">
-          <input v-model="editor.nickName" type="text" placeholder="用户名称" required />
+          <input
+            v-model="editor.nickName"
+            type="text"
+            placeholder="用户名称"
+            required
+          />
         </FormItem>
         <FormItem label="联系电话" prop="telephone">
-          <input v-model="editor.telephone" type="text" placeholder="联系电话" />
+          <input
+            v-model="editor.telephone"
+            type="text"
+            placeholder="联系电话"
+          />
         </FormItem>
         <FormItem label="邮箱" prop="email">
           <input v-model="editor.email" type="text" placeholder="邮箱" />
         </FormItem>
         <FormItem>
-          <Button color="primary" @click="updateUser">保 存</Button>&nbsp;&nbsp;&nbsp;
+          <Button color="primary" @click="updateUser">保 存</Button
+          >&nbsp;&nbsp;&nbsp;
           <Button @click="editorVisible = false">取 消</Button>
         </FormItem>
       </Form>

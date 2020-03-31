@@ -142,8 +142,8 @@ export default {
     },
     currentChange(value) {
       console.log(value);
-      this.showDto.page = value.cur;
-      this.showDto.size = value.size;
+      this.search.page = value.cur;
+      this.search.size = value.size;
       // 刷新评论
       this.getLostList();
     },

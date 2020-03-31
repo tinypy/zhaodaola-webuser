@@ -50,7 +50,9 @@
               ></textarea>
             </FormItem>
             <FormItem>
-              <Button @click="createThanks" color="primary" :loading="isLoading">提 交</Button>
+              <Button @click="createThanks" color="primary" :loading="isLoading"
+                >提 交</Button
+              >
             </FormItem>
           </Form>
         </Cell>
@@ -60,17 +62,28 @@
         <Cell :xs="16" :sm="16" :md="16" :lg="16" :xl="16">
           <Skeleton active :loading="loading">
             <div class="item" v-for="(item, index) in thanksList" :key="index">
-              <Avatar :src="item.avatar?item.avatar:Avatar" :width="60" :imageTop="5">
-                <div style="font-size: 20px;" class="text-ellipsis">{{item.nickName}}</div>
-                <p class="dark1-color">{{item.title}}</p>
-                <p class="bg-gray1-color" style="padding: 8px;border-radius: 5px;">{{item.content}}</p>
-                <p class="dark2-color">留言时间：{{item.createTime}}</p>
+              <Avatar
+                :src="item.avatar ? item.avatar : Avatar"
+                :width="60"
+                :imageTop="5"
+              >
+                <div style="font-size: 20px;" class="text-ellipsis">
+                  {{ item.nickName }}
+                </div>
+                <p class="dark1-color">{{ item.title }}</p>
+                <p
+                  class="bg-gray1-color"
+                  style="padding: 8px;border-radius: 5px;"
+                >
+                  {{ item.content }}
+                </p>
+                <p class="dark2-color">留言时间：{{ item.createTime }}</p>
               </Avatar>
             </div>
           </Skeleton>
           <div class="item">
             <Pagination
-              v-if="thanksList.length>0"
+              v-if="thanksList.length > 0"
               layout="pager,total"
               :cur="search.page"
               :total="search.total"
@@ -141,6 +154,7 @@ export default {
       this.isLoading = false;
     },
     getThanks() {
+      this.thanksList = [];
       this.loading = true;
       R.Thanks.getThanks(this.search).then(res => {
         console.log(res);
