@@ -232,6 +232,9 @@ router.beforeEach((to, from, next) => {
         if (res.ok) {
           store.dispatch("updateAccount", res.body);
           store.dispatch("updateRoles", res.body.roles);
+        } else {
+          removeToken();
+          next("/login");
         }
       });
       if (to.path == "/login") {
@@ -243,6 +246,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
+  next();
 });
 
 router.afterEach(() => {
