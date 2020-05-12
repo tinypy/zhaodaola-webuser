@@ -161,7 +161,7 @@
                     </Badge>
                   </router-link>
                   <em></em>
-                  <span href="#">消息通知</span>
+                  <!-- <span href="#">消息通知</span> -->
                 </div>
               </div>
             </Cell>

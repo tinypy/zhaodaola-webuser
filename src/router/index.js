@@ -126,7 +126,7 @@ const routerParam = {
           meta: { title: "个人中心", auth: true },
           children: [
             {
-              path: "my-lost",
+              path: "",
               name: "MyLost",
               component: resolve =>
                 require(["../views/user/nav/my-lost"], resolve),
